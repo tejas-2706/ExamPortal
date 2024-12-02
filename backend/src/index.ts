@@ -1,13 +1,13 @@
 import express  from "express";
+import cors from "cors";
+import rootRouter from "./routes/index"
 
 const app = express();
 
-app.get('/', (req,res) => {
-    res.json({
-        message: "Hello, TS"
-    })
-})
+app.use(cors());
+app.use(express.json());
 
-app.listen(3000, ()=>{
-    console.log("Listning at 3000");
-});
+app.use("/api/v1", rootRouter);
+
+app.listen(3000)
+
