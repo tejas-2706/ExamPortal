@@ -17,7 +17,15 @@ export const Auth = ({ type }: { type: "Sign up" | "Sign in" }) => {
             const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type == 'Sign up' ? "signup" : "signin"}`, userInputs);
             const jwt = response.data.token;
             localStorage.setItem("token", "Bearer " + jwt);
-            navigate("/exam")
+            const userRole = response.data?.role || userInputs.role;
+
+            // console.log(response.data?.role);
+            if(userRole === 'Teacher'){
+                // console.log("Create Test");
+                navigate('/create-test')
+            }else{
+                navigate('/exam')
+            }
         } catch (error) {
             console.log(error);
             alert("Error while signing up" + error)
@@ -123,7 +131,7 @@ function DropDownRole({ onChange }: { onChange(e: ChangeEvent<HTMLSelectElement>
                     <option value="Roles">Roles</option>
                     <option value="Student">Student</option>
                     <option value="Teacher">Teacher</option>
-                    <option value="Admin">Admin</option>
+                    {/* <option value="Admin">Admin</option> */}
                 </select>
             </div>
         </div>

@@ -60,6 +60,10 @@ router.post('/signin', async (req,res) => {
         where: {
             email: req.body.email,
             password: req.body.password
+        },
+        select:{
+            id:true,
+            role: true
         }
     })
     if(!user) {
@@ -72,7 +76,8 @@ router.post('/signin', async (req,res) => {
     const token = sign({userId},JWT_SECRET);
     res.status(200).json({
         message: "Signin In",
-        token:token
+        token:token,
+        role:user?.role
     })
 })
 
